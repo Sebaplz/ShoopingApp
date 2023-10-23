@@ -1,13 +1,12 @@
-import { useContext } from "react";
 import CartProduct from "../components/cart/CartProduct";
-import { CartContext } from "../context/CartProvider";
 import { NavLink } from "react-router-dom";
+import { useCart } from "../hooks/useCart";
 
 export default function Cart() {
-  const { shoppingList } = useContext(CartContext);
+  const { cart, decreseFromCart, addToCart, removeFromCart } = useCart();
 
   const calculateTotal = () => {
-    return shoppingList
+    return cart
       .reduce((total, item) => total + item.price * item.quantity, 0)
       .toFixed(2);
   };
@@ -17,8 +16,8 @@ export default function Cart() {
   };
 
   return (
-    <main className="mx-auto max-w-screen-xl p-4 md:p-8">
-      {shoppingList.length < 1 ? (
+    <main className="mx-auto mb-32 max-w-screen-xl p-4 md:p-8 lg:mb-0">
+      {cart.length < 1 ? (
         <div className="flex flex-col items-center gap-8 rounded-lg bg-white p-8 text-black">
           <h1 className="text-2xl font-semibold">Your cart is empty!</h1>
           <NavLink
@@ -52,12 +51,18 @@ export default function Cart() {
             </NavLink>
           </div>
           <h1 className="text-3xl text-black">
-            You have {shoppingList.length}{" "}
-            {shoppingList.length === 1 ? "product" : "products"}
+            Product in the cart{" "}
+            {cart.reduce((total, item) => total + item.quantity, 0)}{" "}
           </h1>
           <section className="grid grid-cols-4 gap-2 pt-4 text-black">
-            {shoppingList.map((item) => (
-              <CartProduct item={item} key={item.id} />
+            {cart.map((item) => (
+              <CartProduct
+                item={item}
+                key={item.id}
+                decreseFromCart={decreseFromCart}
+                addToCart={addToCart}
+                removeFromCart={removeFromCart}
+              />
             ))}
             <div className="fixed bottom-0 left-0 flex w-full flex-col justify-center gap-4 rounded-t-lg bg-white p-4 lg:static lg:col-span-1 lg:col-end-5 lg:row-end-2 lg:rounded-lg">
               <div className="flex justify-between ">
@@ -67,7 +72,7 @@ export default function Cart() {
               <button
                 className="rounded-full bg-[#ee5601] p-2 font-semibold text-white hover:opacity-80 disabled:opacity-40"
                 onClick={handleImpresion}
-                disabled={shoppingList.length < 1}
+                disabled={cart.length < 1}
               >
                 Continue shopping
               </button>

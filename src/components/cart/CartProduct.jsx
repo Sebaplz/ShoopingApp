@@ -1,10 +1,11 @@
-import { useContext } from "react";
-import { CartContext } from "../../context/CartProvider";
 import { Decrease, Increase } from "../../util/Icons";
 /* eslint-disable react/prop-types */
-export default function CartProduct({ item }) {
-  const { increaseQuantity, decreaseQuantity, deletePurchase } =
-    useContext(CartContext);
+export default function CartProduct({
+  item,
+  decreseFromCart,
+  addToCart,
+  removeFromCart,
+}) {
   return (
     <div className="col-span-4 flex justify-between rounded-lg bg-white p-2 lg:col-span-3">
       <div className="w-40">
@@ -19,29 +20,30 @@ export default function CartProduct({ item }) {
         <p className="text-lg font-semibold text-[#717171]">${item.price}</p>
         <div className="flex items-center justify-start space-x-3 pt-4">
           <button
-            className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-gray-300 bg-white p-1 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 disabled:opacity-0"
+            className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-gray-300 bg-white p-1 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200"
             type="button"
-            onClick={() => decreaseQuantity(item.id)}
-            disabled={item.quantity == 1}
+            onClick={() => decreseFromCart(item)}
           >
             <Decrease />
           </button>
           <button
             className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-gray-300 bg-white p-1 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200"
             type="button"
-            onClick={() => increaseQuantity(item.id)}
+            onClick={() => addToCart(item)}
           >
             <Increase />
           </button>
           <button
             className="rounded-full bg-[#495867] p-2 font-semibold text-white"
-            onClick={() => deletePurchase(item.id)}
+            onClick={() => removeFromCart(item)}
           >
             Remove
           </button>
         </div>
       </div>
-      <h2>{item.quantity}</h2>
+      <h2 className="flex gap-2 font-semibold">
+        Qty: <span>{item.quantity}</span>
+      </h2>
     </div>
   );
 }

@@ -1,22 +1,13 @@
 import Product from "../components/home/Product";
 import Loading from "../util/Loading";
-import SelectCategory from "../components/home/SelectCategory";
-import { useContext } from "react";
-import { ProductsContext } from "../context/ProductProvider";
-import { CartContext } from "../context/CartProvider";
+import ProductFilters from "../components/home/ProductFilters";
+import useProducts from "../hooks/useProducts";
+import { useFilters } from "../hooks/useFilters";
 
 export default function Home() {
-  const { products, isLoading, error } = useContext(ProductsContext);
-
-  const { addPurchase, deletePurchase } = useContext(CartContext);
-
-  const handleAddPurchase = (product) => {
-    addPurchase(product);
-  };
-
-  const handleRemovePurchase = (id) => {
-    deletePurchase(id);
-  };
+  const { products, isLoading, error, categories } = useProducts();
+  const { filterProducts } = useFilters();
+  const filteredProducts = filterProducts(products);
 
   return (
     <>
@@ -28,16 +19,17 @@ export default function Home() {
         <Loading />
       ) : (
         <main className="mx-auto max-w-screen-xl">
-          <SelectCategory />
+          <ProductFilters categories={categories} />
           <section className="grid gap-4 px-8 py-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {products.map((product) => (
-              <Product
-                key={product.id}
-                product={product}
-                handleAddPurchase={() => handleAddPurchase(product)}
-                handleRemovePurchase={() => handleRemovePurchase(product.id)}
-              />
-            ))}
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map((product) => (
+                <Product key={product.id} product={product} />
+              ))
+            ) : (
+              <h1 className="text-3xl font-semibold text-black lg:w-[600px]">
+                Oops! No products to display!
+              </h1>
+            )}
           </section>
         </main>
       )}
