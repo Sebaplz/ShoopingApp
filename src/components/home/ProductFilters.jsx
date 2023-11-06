@@ -2,7 +2,7 @@
 import { useId } from "react";
 import { useFilters } from "../../hooks/useFilters";
 
-export default function ProductFilters({ categories }) {
+export default function ProductFilters({ categories, setCurrentPage }) {
   const { setFilters, filters } = useFilters();
 
   const minPriceFilterId = useId();
@@ -13,6 +13,7 @@ export default function ProductFilters({ categories }) {
       ...prevState,
       minPrice: event.target.value,
     }));
+    setCurrentPage(1);
   };
 
   const handleChangeCategory = (event) => {
@@ -20,10 +21,11 @@ export default function ProductFilters({ categories }) {
       ...prevState,
       category: event.target.value,
     }));
+    setCurrentPage(1);
   };
 
   return (
-    <section className="flex flex-wrap items-center px-8 md:gap-4">
+    <section className="flex flex-wrap items-center px-8 pt-20 md:gap-4">
       <div className="flex items-center py-2">
         <label
           htmlFor={categoryFilterId}

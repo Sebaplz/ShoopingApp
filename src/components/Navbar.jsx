@@ -6,7 +6,7 @@ import { useCart } from "../hooks/useCart";
 export default function Navbar() {
   const { cart } = useCart();
   return (
-    <nav className="flex items-center justify-between bg-[#ee5601] px-4 py-4 text-white md:px-16">
+    <nav className="fixed z-50 flex w-full items-center justify-between bg-[#ee5601] px-4 py-4 text-white md:px-16">
       <NavLink to={"/"} className="text-3xl font-bold">
         Shopping App
       </NavLink>

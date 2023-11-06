@@ -16,7 +16,7 @@ export default function Cart() {
   };
 
   return (
-    <main className="mx-auto mb-32 max-w-screen-xl p-4 md:p-8 lg:mb-0">
+    <main className="mx-auto mb-32 max-w-screen-xl px-4 pt-24">
       {cart.length < 1 ? (
         <div className="flex flex-col items-center gap-8 rounded-lg bg-white p-8 text-black">
           <h1 className="text-2xl font-semibold">Your cart is empty!</h1>
