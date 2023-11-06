@@ -42,7 +42,7 @@ export default function Pagination({
                 onClick={() => onSpecificPage(numPage)}
                 className={`flex h-10 items-center justify-center border border-gray-300 bg-white px-4 leading-tight text-gray-500  ${
                   numPage === currentPage
-                    ? "bg-blue-400 text-white"
+                    ? "bg-blue-400 text-gray-500"
                     : "hover:bg-gray-100 hover:text-gray-700"
                 }`}
               >
